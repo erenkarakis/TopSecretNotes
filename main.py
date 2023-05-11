@@ -40,6 +40,22 @@ def save_and_encrypt():
             input_text.delete("1.0", END)
 
 
+def decrypt_note():
+    message_encrypted = input_text.get("1.0", END)
+    master_secret = entry_master_secret.get()
+
+    if len(message_encrypted) == 0 or len(master_secret) == 0:
+        messagebox.showwarning(title="Error", message="Please enter all info.")
+    else:
+        try:
+            decrypted_message = decode(master_secret, message_encrypted)
+            input_text.delete("1.0", END)
+            input_text.insert("1.0", decrypted_message)
+        except:
+            messagebox.showwarning(title="Error", message="Please give encrypted note!")
+
+
+
 my_font = ("Verdena", 15, "italic")
 
 window = Tk()
@@ -71,7 +87,7 @@ entry_master_secret.pack()
 button_save = Button(text="Save & Encrypt", pady=5, command=save_and_encrypt)
 button_save.pack()
 
-button_decrypt = Button(text="Decrypt", pady=5)
+button_decrypt = Button(text="Decrypt", pady=5, command=decrypt_note)
 button_decrypt.pack()
 
 
